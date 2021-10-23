@@ -6,11 +6,36 @@ import PopupEditAvatar from './PopupEditAvatar/PopupEditAvatar';
 import PopupEditProfile from './PopupEditProfile/PopupEditProfile';
 import PopupAddPlace from './PopupAddPlace/PopupAddPlace';
 import PopupImage from './PopupImage/PopupImage';
+import {api} from '../utils/api';
+
+
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [ userAvatar, setUserAvatar] = useState('');
+  const [ userName, setUserName] = useState('');
+  const [ userDescription, setUserDescription] = useState('');
+  const [cards, setCards] = useState([]);
+
+  useEffect(() => {
+    let userId;
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
+      .then(([userData, initialCards]) => {
+        userId = userData._id;
+
+        setUserAvatar(userData.avatar);
+        setUserName(userData.name);
+        setUserDescription(userData.about);
+
+        setCards(initialCards);
+      }).catch((err) => {
+        console.log(err);
+    
+        return [];
+      });
+  }, []);
 
   const handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(true);
@@ -34,53 +59,52 @@ function App() {
     <>
       <div className="page">
         <Header />
-        <Main onEditAvatar={handleEditAvatarClick} onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} />
+        <Main
+          onEditAvatar={handleEditAvatarClick}
+          onEditProfile={handleEditProfileClick}
+          onAddPlace={handleAddPlaceClick}
+          userAvatar={userAvatar}
+          userName={userName}
+          userDescription={userDescription} 
+          cards={cards}
+        />
         <Footer />
       </div>
 
-      <PopupEditAvatar isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} />
+      <PopupEditAvatar
+        isOpen={isEditAvatarPopupOpen}
+        onClose={closeAllPopups}
+      />
 
-      <PopupEditProfile isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} />
+      <PopupEditProfile
+        isOpen={isEditProfilePopupOpen}
+        onClose={closeAllPopups}
+      />
 
       <PopupAddPlace isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} />
 
       <PopupImage />
-      
-      <div className="popup popup-image">
-        <div className="popup__container popup-image__container">
-          <button type="button" className="popup__close-button popup-image__close-button button"></button>
-          <figure className="popup-image__figure">
-            <img className="popup-image__image" src="#" alt="" />
-            <figcaption className="popup-image__caption"></figcaption>
-          </figure>
-        </div>
-      </div>
-      
+
       <div className="popup popup-delete">
         <div className="popup__container">
-          <button type="button" className="popup__close-button popup-delete__close-button button"></button>
+          <button
+            type="button"
+            className="popup__close-button popup-delete__close-button button"
+          ></button>
           <h2 className="popup__title popup-delete__title">Вы уверены?</h2>
           <form name="popup-add__form" className="popup-delete__form form">
-            <button type="submit" className="popup__delete-button popup__submit-button form__submit popup-delete__submit-button">Да</button>
+            <button
+              type="submit"
+              className="popup__delete-button popup__submit-button form__submit popup-delete__submit-button"
+            >
+              Да
+            </button>
           </form>
         </div>
       </div>
-      
-      <template id="element-template">
-        <article className="element">
-          <button type="button" className="element__remove-button button"></button>
-          <img src="#" alt="" className="element__image" />
-          <div className="element__description">
-            <h2 className="element__title"></h2>
-            <div className="element__like-container">
-              <button type="button" className="element__like-button"></button>
-              <p className="element__like-counter"></p>
-            </div>
-          </div>
-        </article>
-      </template>
+
+
     </>
-  
   );
 }
 

@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function PopupImage({url, title, onClose}) {
+export default function ImagePopup({url, title, onClose}) {
   return (
     <div className={`popup popup-image ${title && "popup_opened"}`} onClick={onClose}>
         <div className="popup__container popup-image__container">

@@ -5,7 +5,7 @@ import Footer from './Footer/Footer';
 import PopupEditAvatar from './PopupEditAvatar/PopupEditAvatar';
 import PopupEditProfile from './PopupEditProfile/PopupEditProfile';
 import PopupAddPlace from './PopupAddPlace/PopupAddPlace';
-import PopupImage from './PopupImage/PopupImage';
+import ImagePopup from './PopupImage/PopupImage';
 import {api} from '../utils/api';
 
 
@@ -91,7 +91,7 @@ function App() {
 
       <PopupAddPlace isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} />
 
-      <PopupImage onClose={closeAllPopups} url={selectedCard.url} title={selectedCard.title} />
+      <ImagePopup onClose={closeAllPopups} url={selectedCard.url} title={selectedCard.title} />
 
       <div className="popup popup-delete">
         <div className="popup__container">

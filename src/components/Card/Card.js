@@ -1,13 +1,17 @@
 import React from "react";
 
-export default function Card({ url, alt, title, likes }) {
+export default function Card({ url, alt, title, likes, onCardClick }) {
+  const handleClick = () => {
+    onCardClick(url, title);
+  };
+
   return (
       <article className="element">
         <button
           type="button"
           className="element__remove-button button"
         ></button>
-        <img src={url} alt={alt} className="element__image" />
+        <img src={url} alt={alt} className="element__image" onClick={handleClick} />
         <div className="element__description">
           <h2 className="element__title">{title}</h2>
           <div className="element__like-container">

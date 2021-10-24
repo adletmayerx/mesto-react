@@ -18,6 +18,31 @@ function App() {
   const [ userName, setUserName] = useState('');
   const [ userDescription, setUserDescription] = useState('');
   const [cards, setCards] = useState([]);
+  const [selectedCard, setSelectCard] = useState({});
+
+  const handleEditAvatarClick = () => {
+    setIsEditAvatarPopupOpen(true);
+  };
+
+  const handleEditProfileClick = () => {
+    setIsEditProfilePopupOpen(true);
+  };
+
+  const handleAddPlaceClick = () => {
+    setIsAddPlacePopupOpen(true);
+  };
+
+  const handleCardClick = (url, title) => {
+    setSelectCard({url, title});
+  };
+
+  const closeAllPopups = () => {
+    setIsEditAvatarPopupOpen(false);
+    setIsEditProfilePopupOpen(false);
+    setIsAddPlacePopupOpen(false);
+
+    setSelectCard({});
+  };
 
   useEffect(() => {
     let userId;
@@ -37,24 +62,6 @@ function App() {
       });
   }, []);
 
-  const handleEditAvatarClick = () => {
-    setIsEditAvatarPopupOpen(true);
-  };
-
-  const handleEditProfileClick = () => {
-    setIsEditProfilePopupOpen(true);
-  };
-
-  const handleAddPlaceClick = () => {
-    setIsAddPlacePopupOpen(true);
-  };
-
-  const closeAllPopups = () => {
-    setIsEditAvatarPopupOpen(false);
-    setIsEditProfilePopupOpen(false);
-    setIsAddPlacePopupOpen(false);
-  };
-
   return (
     <>
       <div className="page">
@@ -67,6 +74,7 @@ function App() {
           userName={userName}
           userDescription={userDescription} 
           cards={cards}
+          onCardClick={handleCardClick}
         />
         <Footer />
       </div>
@@ -83,7 +91,7 @@ function App() {
 
       <PopupAddPlace isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} />
 
-      <PopupImage />
+      <PopupImage onClose={closeAllPopups} url={selectedCard.url} title={selectedCard.title} />
 
       <div className="popup popup-delete">
         <div className="popup__container">

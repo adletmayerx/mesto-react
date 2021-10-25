@@ -1,7 +1,17 @@
 import React from 'react';
 import Card from '../Card/Card';
 
-export default function Main({ onEditAvatar, onEditProfile, onAddPlace, userAvatar, userName, userDescription, cards, onCardClick }) {
+export default function Main({
+  onEditAvatar,
+  onEditProfile,
+  onAddPlace,
+  userAvatar,
+  userName,
+  userDescription,
+  cards,
+  onCardClick,
+  onRemoveButtonClick,
+}) {
   return (
     <main className="content">
       <section className="profile">
@@ -21,13 +31,23 @@ export default function Main({ onEditAvatar, onEditProfile, onAddPlace, userAvat
           ></button>
           <p className="profile__subtitle">{userDescription}</p>
         </div>
-        <button type="button" className="profile__add-button button" onClick={onAddPlace}></button>
+        <button
+          type="button"
+          className="profile__add-button button"
+          onClick={onAddPlace}
+        ></button>
       </section>
 
-    <section className='elements'>
+      <section className="elements">
         {cards.map((card) => (
           <Card
-            url={card.link} alt={card.name} title={card.name} likes={card.likes.length} key={card._id} onCardClick={onCardClick}
+            url={card.link}
+            alt={card.name}
+            title={card.name}
+            likes={card.likes.length}
+            key={card._id}
+            onCardClick={onCardClick}
+            onRemoveButtonClick={onRemoveButtonClick}
           />
         ))}
       </section>

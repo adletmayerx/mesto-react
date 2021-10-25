@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Card({ url, alt, title, likes, onCardClick }) {
+export default function Card({ url, alt, title, likes, onCardClick, onRemoveButtonClick }) {
   const handleClick = () => {
     onCardClick(url, title);
   };
@@ -9,7 +9,8 @@ export default function Card({ url, alt, title, likes, onCardClick }) {
       <article className="element">
         <button
           type="button"
-          className="element__remove-button button"
+          className="element__remove-button button" 
+          onClick={onRemoveButtonClick}
         ></button>
         <img src={url} alt={alt} className="element__image" onClick={handleClick} />
         <div className="element__description">

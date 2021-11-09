@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './Header/Header';
 import Main from './Main/Main';
 import Footer from './Footer/Footer';
@@ -7,6 +7,8 @@ import PopupEditProfile from './PopupEditProfile/PopupEditProfile';
 import PopupAddPlace from './PopupAddPlace/PopupAddPlace';
 import PopupDeleteConfirm from './PopupDeleteConfirm/PopupDeleteConfirm';
 import ImagePopup from './PopupImage/PopupImage';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import { api } from '../utils/api'
 
 
 
@@ -17,6 +19,14 @@ function App() {
   const [isDeleteConfirmPopupOpen, setIsDeleteConfirmPopupOpen] = useState(false);
 
   const [selectedCard, setSelectCard] = useState({});
+
+  const [currentUser, setCurrentUser] = useState({});
+
+  useEffect(() => {
+    api.getUserInfo().then(res => {
+      setCurrentUser(res);
+    });
+  }, []);
 
   const handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(true);
@@ -50,35 +60,40 @@ function App() {
   
   return (
     <>
-      <Header />
-      <Main
-        onEditAvatar={handleEditAvatarClick}
-        onEditProfile={handleEditProfileClick}
-        onAddPlace={handleAddPlaceClick}
-        onCardClick={handleCardClick} 
-        onRemoveButtonClick={handleRemoveButtonClick}
-      />
-      <Footer />
+      <CurrentUserContext.Provider value={currentUser}>
+        <Header />
+        <Main
+          onEditAvatar={handleEditAvatarClick}
+          onEditProfile={handleEditProfileClick}
+          onAddPlace={handleAddPlaceClick}
+          onCardClick={handleCardClick}
+          onRemoveButtonClick={handleRemoveButtonClick}
+        />
+        <Footer />
 
-      <PopupEditAvatar
-        isOpen={isEditAvatarPopupOpen}
-        onClose={closeAllPopups}
-      />
+        <PopupEditAvatar
+          isOpen={isEditAvatarPopupOpen}
+          onClose={closeAllPopups}
+        />
 
-      <PopupEditProfile
-        isOpen={isEditProfilePopupOpen}
-        onClose={closeAllPopups}
-      />
+        <PopupEditProfile
+          isOpen={isEditProfilePopupOpen}
+          onClose={closeAllPopups}
+        />
 
-      <PopupAddPlace isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} />
+        <PopupAddPlace isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} />
 
-      <ImagePopup
-        onClose={closeAllPopups}
-        url={selectedCard.url}
-        title={selectedCard.title}
-      />
+        <ImagePopup
+          onClose={closeAllPopups}
+          url={selectedCard.url}
+          title={selectedCard.title}
+        />
 
-      <PopupDeleteConfirm isOpen={isDeleteConfirmPopupOpen} onClose={closeAllPopups} />
+        <PopupDeleteConfirm
+          isOpen={isDeleteConfirmPopupOpen}
+          onClose={closeAllPopups}
+        />
+      </CurrentUserContext.Provider>
     </>
   );
 }

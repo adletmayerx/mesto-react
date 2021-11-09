@@ -1,6 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import Card from '../Card/Card';
 import { api } from '../../utils/api';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
 export default function Main({
   onEditAvatar,
@@ -9,18 +10,12 @@ export default function Main({
   onCardClick,
   onRemoveButtonClick,
 }) {
-  const [ userAvatar, setUserAvatar] = useState('');
-  const [ userName, setUserName] = useState('');
-  const [ userDescription, setUserDescription] = useState('');
+  const currentUser = useContext(CurrentUserContext);
   const [cards, setCards] = useState([]);
   
   useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getInitialCards()])
-      .then(([userData, initialCards]) => {
-        setUserAvatar(userData.avatar);
-        setUserName(userData.name);
-        setUserDescription(userData.about);
-
+    api.getInitialCards()
+      .then(initialCards => {
         setCards(initialCards);
       }).catch((err) => {
         console.log(err);
@@ -35,19 +30,19 @@ export default function Main({
       <section className="profile">
         <div className="profile__image-container" onClick={onEditAvatar}>
           <img
-            src={userAvatar}
+            src={currentUser.avatar}
             alt="фотография обладателя профиля"
             className="profile__image"
           />
         </div>
         <div className="profile__info">
-          <h1 className="profile__title">{userName}</h1>
+          <h1 className="profile__title">{currentUser.name}</h1>
           <button
             type="button"
             className="profile__edit-button button"
             onClick={onEditProfile}
           ></button>
-          <p className="profile__subtitle">{userDescription}</p>
+          <p className="profile__subtitle">{currentUser.about}</p>
         </div>
         <button
           type="button"
@@ -62,7 +57,8 @@ export default function Main({
             url={card.link}
             alt={card.name}
             title={card.name}
-            likes={card.likes.length}
+            likes={card.likes}
+            owner={card.owner}
             key={card._id}
             onCardClick={onCardClick}
             onRemoveButtonClick={onRemoveButtonClick}

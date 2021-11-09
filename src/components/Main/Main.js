@@ -24,6 +24,34 @@ export default function Main({
       });
   }, []);
 
+  const handleCardLike = (likes, id) =>  {
+    const isLiked = likes.some(i => i._id === currentUser._id);
+    
+    if (isLiked) {
+      api
+        .removeLike(id)
+        .then((newCard) => {
+          setCards((state) => state.map((c) => (c._id === id ? newCard : c)));
+        })
+        .catch((err) => {
+          console.log(err);
+
+          return [];
+        });
+    } else {
+      api
+        .addLike(id)
+        .then((newCard) => {
+          setCards((state) => state.map((c) => (c._id === id ? newCard : c)));
+        })
+        .catch((err) => {
+          console.log(err);
+
+          return [];
+        });
+    }
+}
+
 
   return (
     <main className="content">
@@ -54,14 +82,16 @@ export default function Main({
       <section className="elements">
         {cards.map((card) => (
           <Card
-            url={card.link}
-            alt={card.name}
-            title={card.name}
-            likes={card.likes}
-            owner={card.owner}
-            key={card._id}
-            onCardClick={onCardClick}
-            onRemoveButtonClick={onRemoveButtonClick}
+            url = {card.link}
+            alt = {card.name}
+            title = {card.name}
+            likes = {card.likes}
+            owner = {card.owner}
+            id = {card._id}
+            key = {card._id}
+            onCardClick = {onCardClick}
+            onRemoveButtonClick = {onRemoveButtonClick}
+            onCardLike = {handleCardLike}
           />
         ))}
       </section>

@@ -1,11 +1,15 @@
 import React, { useContext } from "react";
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
-export default function Card({ url, alt, title, likes, owner, onCardClick, onRemoveButtonClick }) {
+export default function Card({ url, alt, title, likes, owner, id, onCardClick, onRemoveButtonClick, onCardLike }) {
   const currentUser = useContext(CurrentUserContext);
 
   const handleClick = () => {
     onCardClick(url, title);
+  };
+
+  const handLikeClick = () => {
+    onCardLike(likes, id);
   };
 
   const isOwn = owner._id === currentUser._id;
@@ -33,7 +37,7 @@ export default function Card({ url, alt, title, likes, owner, onCardClick, onRem
       <div className="element__description">
         <h2 className="element__title">{title}</h2>
         <div className="element__like-container">
-          <button type="button" className={elementLikeButtonClassName}></button>
+          <button type="button" className={elementLikeButtonClassName} onClick={handLikeClick}></button>
           <p className="element__like-counter">{likes.length}</p>
         </div>
       </div>

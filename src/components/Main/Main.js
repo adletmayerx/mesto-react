@@ -52,6 +52,18 @@ export default function Main({
     }
 }
 
+  const handleCardDelete = (id) => {
+    api
+      .deleteCard(id)
+      .then(() => {
+        setCards((state) => state.filter((c) => c._id !== id));
+      })
+      .catch((err) => {
+        console.log(err);
+
+        return [];
+      });
+  }
 
   return (
     <main className="content">
@@ -92,6 +104,7 @@ export default function Main({
             onCardClick = {onCardClick}
             onRemoveButtonClick = {onRemoveButtonClick}
             onCardLike = {handleCardLike}
+            onCardDelete = {handleCardDelete}
           />
         ))}
       </section>

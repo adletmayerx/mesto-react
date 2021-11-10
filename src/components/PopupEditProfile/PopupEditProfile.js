@@ -1,7 +1,25 @@
-import React from "react";
+import React, { useContext, useState, useEffect } from "react";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import PopupWithForm from "../PopupWithForm/PopupWithForm";
 
-export default function PopupEditProfile({ isOpen, onClose }) {
+export default function PopupEditProfile({ isOpen, onClose, onUpdateUser }) {
+  const currentUser = useContext(CurrentUserContext);
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    onUpdateUser({ name, about: description });
+
+    onClose();
+  }
+
+  useEffect(() => {
+    setName(currentUser.name);
+    setDescription(currentUser.about);
+  }, [currentUser]); 
+
   return (
     <PopupWithForm
       title={"Редактировать профиль"}
@@ -9,6 +27,7 @@ export default function PopupEditProfile({ isOpen, onClose }) {
       isOpen={isOpen}
       onClose={onClose}
       buttonValue={"Сохранить"}
+      onSubmit={handleSubmit}
     >
       <input
         name="name"
@@ -19,6 +38,8 @@ export default function PopupEditProfile({ isOpen, onClose }) {
         minLength="2"
         maxLength="40"
         placeholder="Ваше имя"
+        value={name}
+        onChange={e => setName(e.target.value)}
       />
       <span className="form__input-error name-input-error"></span>
       <input
@@ -30,6 +51,8 @@ export default function PopupEditProfile({ isOpen, onClose }) {
         minLength="2"
         maxLength="200"
         placeholder="Расскажите о себе"
+        value={description}
+        onChange={e => setDescription(e.target.value)}
       />
       <span className="form__input-error about-input-error"></span>
     </PopupWithForm>

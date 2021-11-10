@@ -20,11 +20,15 @@ function App() {
 
   const [selectedCard, setSelectCard] = useState({});
 
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState({name: '', about: ''});
 
   useEffect(() => {
     api.getUserInfo().then(res => {
       setCurrentUser(res);
+    }).catch((err) => {
+      console.log(err);
+  
+      return [];
     });
   }, []);
 
@@ -57,6 +61,28 @@ function App() {
     setSelectCard({});
   };
 
+  const handleUpdateUser = (name, about) => {
+    api
+      .editProfile(name, about)
+      .then((res) => setCurrentUser(res))
+      .catch((err) => {
+        console.log(err);
+
+        return [];
+      });
+  }
+
+  const handleUpdateAvatar = (avatar) => {
+    api
+      .editAvatar(avatar)
+      .then((res) => setCurrentUser(res))
+      .catch((err) => {
+        console.log(err);
+
+        return [];
+      }).finally(() => closeAllPopups());
+  }
+
   
   return (
     <>
@@ -74,11 +100,13 @@ function App() {
         <PopupEditAvatar
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
+          onUpdateAvatar={handleUpdateAvatar}
         />
 
         <PopupEditProfile
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
+          onUpdateUser={handleUpdateUser}
         />
 
         <PopupAddPlace isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} />

@@ -17,10 +17,22 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isDeleteConfirmPopupOpen, setIsDeleteConfirmPopupOpen] = useState(false);
-
+  const [cards, setCards] = useState([]);
   const [selectedCard, setSelectCard] = useState({});
-
   const [currentUser, setCurrentUser] = useState({name: '', about: ''});
+
+  useEffect(() => {
+    api.getInitialCards()
+      .then(initialCards => {
+        setCards(initialCards);
+      }).catch((err) => {
+        console.log(err);
+    
+        return [];
+      });
+  }, []);
+
+
 
   useEffect(() => {
     api.getUserInfo().then(res => {
@@ -69,7 +81,7 @@ function App() {
         console.log(err);
 
         return [];
-      });
+      }).finally(() => closeAllPopups());
   }
 
   const handleUpdateAvatar = (avatar) => {
@@ -83,6 +95,58 @@ function App() {
       }).finally(() => closeAllPopups());
   }
 
+  const handleAddPlaceSubmit = (name, link) => {
+    api
+    .addCard(name, link)
+      .then(newCard => setCards([newCard, ...cards]))
+      .catch((err) => {
+        console.log(err);
+
+        return [];
+      })
+      .finally(() => closeAllPopups());
+  }
+
+  const handleCardLike = (likes, id) =>  {
+    const isLiked = likes.some(i => i._id === currentUser._id);
+    
+    if (isLiked) {
+      api
+        .removeLike(id)
+        .then((newCard) => {
+          setCards((state) => state.map((c) => (c._id === id ? newCard : c)));
+        })
+        .catch((err) => {
+          console.log(err);
+
+          return [];
+        });
+    } else {
+      api
+        .addLike(id)
+        .then((newCard) => {
+          setCards((state) => state.map((c) => (c._id === id ? newCard : c)));
+        })
+        .catch((err) => {
+          console.log(err);
+
+          return [];
+        });
+    }
+}
+
+  const handleCardDelete = (id) => {
+    api
+      .deleteCard(id)
+      .then(() => {
+        setCards((state) => state.filter((c) => c._id !== id));
+      })
+      .catch((err) => {
+        console.log(err);
+
+        return [];
+      });
+  }
   
   return (
     <>
@@ -94,6 +158,9 @@ function App() {
           onAddPlace={handleAddPlaceClick}
           onCardClick={handleCardClick}
           onRemoveButtonClick={handleRemoveButtonClick}
+          cards={cards}
+          onCardLike={handleCardLike}
+          onCardDelete={handleCardDelete}
         />
         <Footer />
 
@@ -109,7 +176,11 @@ function App() {
           onUpdateUser={handleUpdateUser}
         />
 
-        <PopupAddPlace isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} />
+        <PopupAddPlace
+          isOpen={isAddPlacePopupOpen}
+          onClose={closeAllPopups}
+          onAddPlace={handleAddPlaceSubmit}
+        />
 
         <ImagePopup
           onClose={closeAllPopups}

@@ -11,8 +11,6 @@ export default function PopupEditProfile({ isOpen, onClose, onUpdateUser }) {
     e.preventDefault();
 
     onUpdateUser({ name, about: description });
-
-    onClose();
   }
 
   useEffect(() => {

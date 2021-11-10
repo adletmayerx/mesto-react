@@ -1,7 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import PopupWithForm from "../PopupWithForm/PopupWithForm";
 
-export default function PopupAddPlace({ isOpen, onClose }) {
+export default function PopupAddPlace({ isOpen, onClose, onAddPlace }) {
+  const [title, setTitle] = useState('');
+  const [link, setLink] = useState('');
+  
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    console.log(title, link);
+
+    onAddPlace({
+      name: title,
+      link
+    });
+
+    setTitle('');
+    setLink('');
+  }
+  
   return (
     <PopupWithForm
       title={"Новое место"}
@@ -9,6 +26,7 @@ export default function PopupAddPlace({ isOpen, onClose }) {
       isOpen={isOpen}
       onClose={onClose}
       buttonValue={"Создать"}
+      onSubmit={handleSubmit}
     >
       <input
         name="title"
@@ -18,6 +36,8 @@ export default function PopupAddPlace({ isOpen, onClose }) {
         placeholder="Название"
         minLength="2"
         maxLength="30"
+        value={title}
+        onChange={e => setTitle(e.target.value)}
         required
       />
       <span className="form__input-error title-input-error"></span>
@@ -27,6 +47,8 @@ export default function PopupAddPlace({ isOpen, onClose }) {
         className="popup__input popup__input_type_link form__input"
         id="link-input"
         placeholder="Ссылка на картинку"
+        value={link}
+        onChange={e => setLink(e.target.value)}
         required
       />
       <span className="form__input-error link-input-error"></span>

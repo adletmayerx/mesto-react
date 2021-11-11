@@ -20,6 +20,8 @@ function App() {
   const [cards, setCards] = useState([]);
   const [selectedCard, setSelectCard] = useState({});
   const [currentUser, setCurrentUser] = useState({name: '', about: ''});
+  const [deletingCardId, setDeletingCardId] = useState('');
+
 
   useEffect(() => {
     api.getInitialCards()
@@ -56,7 +58,8 @@ function App() {
     setIsAddPlacePopupOpen(true);
   };
 
-  const handleRemoveButtonClick = () => {
+  const handleRemoveButtonClick = (id) => {
+    setDeletingCardId(id);
     setIsDeleteConfirmPopupOpen(true);
   };
 
@@ -135,17 +138,17 @@ function App() {
     }
 }
 
-  const handleCardDelete = (id) => {
+  const handleCardDelete = () => {
     api
-      .deleteCard(id)
+      .deleteCard(deletingCardId)
       .then(() => {
-        setCards((state) => state.filter((c) => c._id !== id));
+        setCards((state) => state.filter((c) => c._id !== deletingCardId));
       })
       .catch((err) => {
         console.log(err);
 
         return [];
-      });
+      }).finally(() => closeAllPopups());
   }
   
   return (
@@ -191,6 +194,7 @@ function App() {
         <PopupDeleteConfirm
           isOpen={isDeleteConfirmPopupOpen}
           onClose={closeAllPopups}
+          onDelete={handleCardDelete}
         />
       </CurrentUserContext.Provider>
     </>

@@ -10,8 +10,7 @@ export default function Main({
   onRemoveButtonClick,
   cards,
   onCardLike,
-  onCardDelete,
-}) {
+  }) {
   const currentUser = useContext(CurrentUserContext);
 
   return (
@@ -53,7 +52,6 @@ export default function Main({
             onCardClick={onCardClick}
             onRemoveButtonClick={onRemoveButtonClick}
             onCardLike={onCardLike}
-            onCardDelete={onCardDelete}
           />
         ))}
       </section>

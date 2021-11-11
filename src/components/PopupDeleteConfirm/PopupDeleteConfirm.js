@@ -1,7 +1,13 @@
 import React from "react";
 import PopupWithForm from "../PopupWithForm/PopupWithForm";
 
-export default function PopupDeleteConfirm({ isOpen, onClose }) {
+export default function PopupDeleteConfirm({ isOpen, onClose, onDelete }) {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    onDelete();
+  }
+
   return (
     <PopupWithForm
       title={"Вы уверены?"}
@@ -9,6 +15,7 @@ export default function PopupDeleteConfirm({ isOpen, onClose }) {
       isOpen={isOpen}
       onClose={onClose}
       buttonValue={"Да"}
+      onSubmit={handleSubmit}
     ></PopupWithForm>
   );
 }

@@ -11,7 +11,6 @@ export default function Card({
   onCardClick,
   onRemoveButtonClick,
   onCardLike,
-  onCardDelete,
 }) {
   const currentUser = useContext(CurrentUserContext);
 
@@ -24,7 +23,7 @@ export default function Card({
   };
 
   const handleDeleteClick = () => {
-    onCardDelete(id);
+    onRemoveButtonClick(id);
   }
 
   const isOwn = owner._id === currentUser._id;

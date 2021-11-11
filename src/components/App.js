@@ -21,6 +21,10 @@ function App() {
   const [selectedCard, setSelectCard] = useState({});
   const [currentUser, setCurrentUser] = useState({name: '', about: ''});
   const [deletingCardId, setDeletingCardId] = useState('');
+  const [buttonAvatarText, setButtonAvatarText] = useState('Сохранить');
+  const [buttonProfileText, setButtonProfileText] = useState('Сохранить');
+  const [buttonAddPlaceText, setButtonAddPlaceText] = useState('Создать');
+  const [buttonDeleteText, setButtonDeleteText] = useState('Да');
 
 
   useEffect(() => {
@@ -77,6 +81,7 @@ function App() {
   };
 
   const handleUpdateUser = (name, about) => {
+    setButtonProfileText('Сохранение...');
     api
       .editProfile(name, about)
       .then((res) => setCurrentUser(res))
@@ -84,10 +89,14 @@ function App() {
         console.log(err);
 
         return [];
-      }).finally(() => closeAllPopups());
+      }).finally(() => {
+        closeAllPopups();
+        setButtonProfileText("Сохранить");
+      });
   }
 
   const handleUpdateAvatar = (avatar) => {
+    setButtonAvatarText('Сохранение...');
     api
       .editAvatar(avatar)
       .then((res) => setCurrentUser(res))
@@ -95,10 +104,15 @@ function App() {
         console.log(err);
 
         return [];
-      }).finally(() => closeAllPopups());
+      })
+      .finally(() => {
+        closeAllPopups();
+        setButtonAvatarText("Сохранить");
+      });
   }
 
   const handleAddPlaceSubmit = (name, link) => {
+    setButtonAddPlaceText('Сохранение...');
     api
     .addCard(name, link)
       .then(newCard => setCards([newCard, ...cards]))
@@ -107,7 +121,27 @@ function App() {
 
         return [];
       })
-      .finally(() => closeAllPopups());
+      .finally(() => {
+        closeAllPopups();
+        setButtonAddPlaceText("Создать");
+      });
+  }
+  
+  const handleCardDelete = () => {
+    setButtonDeleteText('Удаление...');
+    api
+      .deleteCard(deletingCardId)
+      .then(() => {
+        setCards((state) => state.filter((c) => c._id !== deletingCardId));
+      })
+      .catch((err) => {
+        console.log(err);
+
+        return [];
+      }).finally(() => {
+        closeAllPopups();
+        setButtonDeleteText("Да");
+      });
   }
 
   const handleCardLike = (likes, id) =>  {
@@ -137,19 +171,6 @@ function App() {
         });
     }
 }
-
-  const handleCardDelete = () => {
-    api
-      .deleteCard(deletingCardId)
-      .then(() => {
-        setCards((state) => state.filter((c) => c._id !== deletingCardId));
-      })
-      .catch((err) => {
-        console.log(err);
-
-        return [];
-      }).finally(() => closeAllPopups());
-  }
   
   return (
     <>
@@ -171,18 +192,21 @@ function App() {
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
+          buttonText={buttonAvatarText}
         />
 
         <PopupEditProfile
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
+          buttonText={buttonProfileText}
         />
 
         <PopupAddPlace
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
           onAddPlace={handleAddPlaceSubmit}
+          buttonText={buttonAddPlaceText}
         />
 
         <ImagePopup
@@ -195,6 +219,7 @@ function App() {
           isOpen={isDeleteConfirmPopupOpen}
           onClose={closeAllPopups}
           onDelete={handleCardDelete}
+          buttonText={buttonDeleteText}
         />
       </CurrentUserContext.Provider>
     </>

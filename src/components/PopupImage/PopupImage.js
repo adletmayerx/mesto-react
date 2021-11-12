@@ -2,7 +2,7 @@ import React from "react";
 
 export default function ImagePopup({url, title, onClose}) {
   return (
-    <div className={`popup popup-image ${title && "popup_opened"}`} onClick={onClose}>
+    <div className={`popup popup-image ${title && "popup_opened"}`}>
         <div className="popup__container popup-image__container">
           <button type="button" className="popup__close-button popup-image__close-button button" onClick={onClose}></button>
           <figure className="popup-image__figure">

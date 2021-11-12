@@ -85,13 +85,14 @@ function App() {
     api
       .editProfile(name, about)
       .then((res) => setCurrentUser(res))
+      .then(() => {
+        closeAllPopups();
+        setButtonProfileText("Сохранить");
+      })
       .catch((err) => {
         console.log(err);
 
         return [];
-      }).finally(() => {
-        closeAllPopups();
-        setButtonProfileText("Сохранить");
       });
   }
 
@@ -100,30 +101,30 @@ function App() {
     api
       .editAvatar(avatar)
       .then((res) => setCurrentUser(res))
+      .then(() => {
+        closeAllPopups();
+        setButtonAvatarText("Сохранить");
+      })
       .catch((err) => {
         console.log(err);
 
         return [];
-      })
-      .finally(() => {
-        closeAllPopups();
-        setButtonAvatarText("Сохранить");
       });
   }
 
   const handleAddPlaceSubmit = (name, link) => {
     setButtonAddPlaceText('Сохранение...');
     api
-    .addCard(name, link)
-      .then(newCard => setCards([newCard, ...cards]))
+      .addCard(name, link)
+      .then((newCard) => setCards([newCard, ...cards]))
+      .then(() => {
+        closeAllPopups();
+        setButtonAddPlaceText("Создать");
+      })
       .catch((err) => {
         console.log(err);
 
         return [];
-      })
-      .finally(() => {
-        closeAllPopups();
-        setButtonAddPlaceText("Создать");
       });
   }
   
@@ -173,56 +174,54 @@ function App() {
 }
   
   return (
-    <>
-      <CurrentUserContext.Provider value={currentUser}>
-        <Header />
-        <Main
-          onEditAvatar={handleEditAvatarClick}
-          onEditProfile={handleEditProfileClick}
-          onAddPlace={handleAddPlaceClick}
-          onCardClick={handleCardClick}
-          onRemoveButtonClick={handleRemoveButtonClick}
-          cards={cards}
-          onCardLike={handleCardLike}
-          onCardDelete={handleCardDelete}
-        />
-        <Footer />
+    <CurrentUserContext.Provider value={currentUser}>
+      <Header />
+      <Main
+        onEditAvatar={handleEditAvatarClick}
+        onEditProfile={handleEditProfileClick}
+        onAddPlace={handleAddPlaceClick}
+        onCardClick={handleCardClick}
+        onRemoveButtonClick={handleRemoveButtonClick}
+        cards={cards}
+        onCardLike={handleCardLike}
+        onCardDelete={handleCardDelete}
+      />
+      <Footer />
 
-        <PopupEditAvatar
-          isOpen={isEditAvatarPopupOpen}
-          onClose={closeAllPopups}
-          onUpdateAvatar={handleUpdateAvatar}
-          buttonText={buttonAvatarText}
-        />
+      <PopupEditAvatar
+        isOpen={isEditAvatarPopupOpen}
+        onClose={closeAllPopups}
+        onUpdateAvatar={handleUpdateAvatar}
+        buttonText={buttonAvatarText}
+      />
 
-        <PopupEditProfile
-          isOpen={isEditProfilePopupOpen}
-          onClose={closeAllPopups}
-          onUpdateUser={handleUpdateUser}
-          buttonText={buttonProfileText}
-        />
+      <PopupEditProfile
+        isOpen={isEditProfilePopupOpen}
+        onClose={closeAllPopups}
+        onUpdateUser={handleUpdateUser}
+        buttonText={buttonProfileText}
+      />
 
-        <PopupAddPlace
-          isOpen={isAddPlacePopupOpen}
-          onClose={closeAllPopups}
-          onAddPlace={handleAddPlaceSubmit}
-          buttonText={buttonAddPlaceText}
-        />
+      <PopupAddPlace
+        isOpen={isAddPlacePopupOpen}
+        onClose={closeAllPopups}
+        onAddPlace={handleAddPlaceSubmit}
+        buttonText={buttonAddPlaceText}
+      />
 
-        <ImagePopup
-          onClose={closeAllPopups}
-          url={selectedCard.url}
-          title={selectedCard.title}
-        />
+      <ImagePopup
+        onClose={closeAllPopups}
+        url={selectedCard.url}
+        title={selectedCard.title}
+      />
 
-        <PopupDeleteConfirm
-          isOpen={isDeleteConfirmPopupOpen}
-          onClose={closeAllPopups}
-          onDelete={handleCardDelete}
-          buttonText={buttonDeleteText}
-        />
-      </CurrentUserContext.Provider>
-    </>
+      <PopupDeleteConfirm
+        isOpen={isDeleteConfirmPopupOpen}
+        onClose={closeAllPopups}
+        onDelete={handleCardDelete}
+        buttonText={buttonDeleteText}
+      />
+    </CurrentUserContext.Provider>
   );
 }
 

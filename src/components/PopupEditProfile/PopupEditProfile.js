@@ -16,7 +16,7 @@ export default function PopupEditProfile({ isOpen, onClose, onUpdateUser, button
   useEffect(() => {
     setName(currentUser.name);
     setDescription(currentUser.about);
-  }, [currentUser]); 
+  }, [currentUser, isOpen]); 
 
   return (
     <PopupWithForm

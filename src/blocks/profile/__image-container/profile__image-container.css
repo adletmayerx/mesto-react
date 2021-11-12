@@ -9,7 +9,6 @@
   position: absolute;
   background-color: #000;
   opacity: .3;
-  z-index: 1;
   transition: opacity .6s;
   top: 0;
   left: 0;

@@ -1,24 +1,24 @@
 {
   "files": {
-    "main.css": "/static/css/main.cbddbddf.chunk.css",
-    "main.js": "/static/js/main.892b6e54.chunk.js",
-    "main.js.map": "/static/js/main.892b6e54.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.666a2456.js",
-    "runtime-main.js.map": "/static/js/runtime-main.666a2456.js.map",
-    "static/js/2.bce09417.chunk.js": "/static/js/2.bce09417.chunk.js",
-    "static/js/2.bce09417.chunk.js.map": "/static/js/2.bce09417.chunk.js.map",
-    "static/js/3.8f549c3c.chunk.js": "/static/js/3.8f549c3c.chunk.js",
-    "static/js/3.8f549c3c.chunk.js.map": "/static/js/3.8f549c3c.chunk.js.map",
-    "index.html": "/index.html",
-    "static/css/main.cbddbddf.chunk.css.map": "/static/css/main.cbddbddf.chunk.css.map",
-    "static/js/2.bce09417.chunk.js.LICENSE.txt": "/static/js/2.bce09417.chunk.js.LICENSE.txt",
-    "static/media/index.css": "/static/media/profile__edit-button-image.8667ac4a.svg",
-    "static/media/logo.03b78ada.svg": "/static/media/logo.03b78ada.svg"
+    "main.css": "/asadrtdinov/mesto-react/static/css/main.373c611e.chunk.css",
+    "main.js": "/asadrtdinov/mesto-react/static/js/main.892b6e54.chunk.js",
+    "main.js.map": "/asadrtdinov/mesto-react/static/js/main.892b6e54.chunk.js.map",
+    "runtime-main.js": "/asadrtdinov/mesto-react/static/js/runtime-main.a6c428fe.js",
+    "runtime-main.js.map": "/asadrtdinov/mesto-react/static/js/runtime-main.a6c428fe.js.map",
+    "static/js/2.bce09417.chunk.js": "/asadrtdinov/mesto-react/static/js/2.bce09417.chunk.js",
+    "static/js/2.bce09417.chunk.js.map": "/asadrtdinov/mesto-react/static/js/2.bce09417.chunk.js.map",
+    "static/js/3.8f549c3c.chunk.js": "/asadrtdinov/mesto-react/static/js/3.8f549c3c.chunk.js",
+    "static/js/3.8f549c3c.chunk.js.map": "/asadrtdinov/mesto-react/static/js/3.8f549c3c.chunk.js.map",
+    "index.html": "/asadrtdinov/mesto-react/index.html",
+    "static/css/main.373c611e.chunk.css.map": "/asadrtdinov/mesto-react/static/css/main.373c611e.chunk.css.map",
+    "static/js/2.bce09417.chunk.js.LICENSE.txt": "/asadrtdinov/mesto-react/static/js/2.bce09417.chunk.js.LICENSE.txt",
+    "static/media/index.css": "/asadrtdinov/mesto-react/static/media/profile__edit-button-image.8667ac4a.svg",
+    "static/media/logo.03b78ada.svg": "/asadrtdinov/mesto-react/static/media/logo.03b78ada.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.666a2456.js",
+    "static/js/runtime-main.a6c428fe.js",
     "static/js/2.bce09417.chunk.js",
-    "static/css/main.cbddbddf.chunk.css",
+    "static/css/main.373c611e.chunk.css",
     "static/js/main.892b6e54.chunk.js"
   ]
 }

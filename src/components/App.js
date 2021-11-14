@@ -8,9 +8,7 @@ import PopupAddPlace from './PopupAddPlace/PopupAddPlace';
 import PopupDeleteConfirm from './PopupDeleteConfirm/PopupDeleteConfirm';
 import ImagePopup from './PopupImage/PopupImage';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
-import { api } from '../utils/api'
-
-
+import { api } from '../utils/api';
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
@@ -135,13 +133,14 @@ function App() {
       .then(() => {
         setCards((state) => state.filter((c) => c._id !== deletingCardId));
       })
+      .then(() => {
+        closeAllPopups();
+        setButtonDeleteText("Да");
+      })
       .catch((err) => {
         console.log(err);
 
         return [];
-      }).finally(() => {
-        closeAllPopups();
-        setButtonDeleteText("Да");
       });
   }
 

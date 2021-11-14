@@ -1,5 +1,3 @@
-export {user, nameInput, jobInput, editButton, addButton, popupEditFormSelector, popupAddFormSelector, popupAvatarFormSelector, profileImageContainer, submitButtons};
-
 const user = {
   nameInfo: '.profile__title',
   aboutInfo: '.profile__subtitle',
@@ -28,3 +26,4 @@ const submitButtons = {
   addCard: document.querySelector('.popup-add__submit-button'),
   deleteCard: document.querySelector('.popup-delete__submit-button'),
 }
+export {user, nameInput, jobInput, editButton, addButton, popupEditFormSelector, popupAddFormSelector, popupAvatarFormSelector, profileImageContainer, submitButtons};

@@ -1,17 +1,47 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './components/App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./components/App";
+import reportWebVitals from "./reportWebVitals";
+import { FormValidator } from "./utils/formValidator.js";
+import {
+  selectors,
+  editProfileFormSelector,
+  editAvatarFormSelector,
+  addPlaceFormSelector,
+} from "./utils/selectors.js";
 
 ReactDOM.render(
   <React.StrictMode>
     <App />
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+// const form = document.querySelector("form[name=edit-profile]");
+// const inputList = Array.from(
+//   form.querySelectorAll('.form__input')
+// );
+
+// console.log(form, inputList);
+const editProfileFormValidator = new FormValidator(
+  selectors,
+  editProfileFormSelector
+);
+const addPlaceFormValidator = new FormValidator(
+  selectors,
+  addPlaceFormSelector
+);
+const editAvatarFormValidator = new FormValidator(
+  selectors,
+  editAvatarFormSelector
+);
+
+editProfileFormValidator.enableValidation();
+addPlaceFormValidator.enableValidation();
+editAvatarFormValidator.enableValidation();
+
 reportWebVitals();
